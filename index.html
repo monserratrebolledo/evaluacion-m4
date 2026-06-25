@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Evaluación Usuarios API</title>
+    </head>
+
+    <body>
+
+        <h1>Usuarios API</h1>
+
+        <button onclick="usuarios.listarUsuarios()">
+            Listar usuarios
+        </button>
+
+        <button onclick="usuarios.infoBasica()">
+            Información básica
+        </button>
+
+        <button onclick="usuarios.direccionUsuario()">
+            Dirección usuario
+        </button>
+
+        <button onclick="usuarios.infoAvanzada()">
+            Información avanzada
+        </button>
+
+        <button onclick="usuarios.listarCompanias()">
+            Listar compañías
+        </button>
+
+        <button onclick="usuarios.ordenarUsuarios()">
+            Usuarios ordenados
+        </button>
+
+        <script>
+
+            class Usuarios {
+
+                constructor() {
+
+                    this.listaUsuarios = [];
+
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.open(
+                        "GET",
+                        "https://jsonplaceholder.typicode.com/users"
+                    );
+
+                    xhr.onload = () => {
+
+                        if (xhr.status == 200) {
+
+                            this.listaUsuarios =
+                                JSON.parse(xhr.responseText);
+
+                            console.log("Usuarios cargados");
+
+                        }
+
+                    };
+
+                    xhr.send();
+
+                }
+
+                listarUsuarios() {
+
+                    console.clear();
+
+                    this.listaUsuarios.forEach(usuario => {
+
+                        console.log(usuario.name);
+
+                    });
+
+                }
+
+                infoBasica() {
+
+                    let nombre =
+                        prompt("Ingrese nombre del usuario");
+
+                    let usuario =
+                        this.listaUsuarios.find(
+                            usuario =>
+                                usuario.name.toLowerCase() ==
+                                nombre.toLowerCase()
+                        );
+
+                    if (usuario) {
+
+                        console.log("Username:",
+                            usuario.username);
+
+                        console.log("Email:",
+                            usuario.email);
+
+                    } else {
+
+                        console.log(
+                            "Usuario no encontrado"
+                        );
+
+                    }
+
+                }
+
+                direccionUsuario() {
+
+                    let nombre =
+                        prompt("Ingrese nombre del usuario");
+
+                    let usuario =
+                        this.listaUsuarios.find(
+                            usuario =>
+                                usuario.name.toLowerCase() ==
+                                nombre.toLowerCase()
+                        );
+
+                    if (usuario) {
+
+                        console.log("Street:",
+                            usuario.address.street);
+
+                        console.log("Suite:",
+                            usuario.address.suite);
+
+                        console.log("City:",
+                            usuario.address.city);
+
+                        console.log("Zipcode:",
+                            usuario.address.zipcode);
+
+                        console.log("Lat:",
+                            usuario.address.geo.lat);
+
+                        console.log("Lng:",
+                            usuario.address.geo.lng);
+
+                    } else {
+
+                        console.log(
+                            "Usuario no encontrado"
+                        );
+
+                    }
+
+                }
+
+                infoAvanzada() {
+
+                    let nombre =
+                        prompt("Ingrese nombre del usuario");
+
+                    let usuario =
+                        this.listaUsuarios.find(
+                            usuario =>
+                                usuario.name.toLowerCase() ==
+                                nombre.toLowerCase()
+                        );
+
+                    if (usuario) {
+
+                        console.log("Telefono:",
+                            usuario.phone);
+
+                        console.log("Website:",
+                            usuario.website);
+
+                        console.log("Compañía:",
+                            usuario.company.name);
+
+                        console.log("Catch Phrase:",
+                            usuario.company.catchPhrase);
+
+                        console.log("BS:",
+                            usuario.company.bs);
+
+                    } else {
+
+                        console.log(
+                            "Usuario no encontrado"
+                        );
+
+                    }
+
+                }
+
+                listarCompanias() {
+
+                    console.clear();
+
+                    this.listaUsuarios.forEach(usuario => {
+
+                        console.log(
+                            usuario.company.name +
+                            " - " +
+                            usuario.company.catchPhrase
+                        );
+
+                    });
+
+                }
+
+                ordenarUsuarios() {
+
+                    let usuariosOrdenados =
+                        [...this.listaUsuarios];
+
+                    usuariosOrdenados.sort(
+                        (a, b) =>
+                            a.name.localeCompare(b.name)
+                    );
+
+                    usuariosOrdenados.forEach(usuario => {
+
+                        console.log(usuario.name);
+
+                    });
+
+                }
+
+            }
+
+            let usuarios = new Usuarios();
+
+        </script>
+
+    </body>
+
+</html>
